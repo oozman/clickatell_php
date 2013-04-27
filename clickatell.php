@@ -86,10 +86,19 @@ class ClickATell
 		{
 			$ch = curl_init();
 			
-			$url = $this->clickatell_gateway . '/sendmsg?session_id='. $session_id . '&to='. $to . '&text=' . $msg;
+			$url = $this->clickatell_gateway . '/sendmsg';
 			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+			
+			$data = array(
+				'session_id' => $session_id,
+				'to' => $to,
+				'text' => $msg
+			);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+			
+			curl_setopt($ch, CURLOPT_POST, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
 			$output = curl_exec($ch);
 			curl_close($ch);
 			
